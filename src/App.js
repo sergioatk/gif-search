@@ -1,61 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
-import { computeHeadingLevel } from '@testing-library/dom';
-import React from 'react'
-
-
-const API_KEY = 'DqrVmz0le6WToYStFbcZHDk2RJl86gCg';
-
-const apiCall = async (key, term) => {
-  const response = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${key}&q=${term}&limit=10`);
-
-  const json = response.json();
-  return json;
-}
-
-const GifImage = ({url}) => {
-  <img
-    src={url}
-  ></img>
-}
+import React, { useEffect, useState } from 'react'
+import getGifs from './services/getGifs';
 
 
 
+
+const apiKEY = 'DqrVmz0le6WToYStFbcZHDk2RJl86gCg';
 
 function App() {
 
-  const [gifs, setGifs] = React.useState([]);
-  const [search, setSearch] = React.useState('');
+  const [gifs, setGifs] = useState([]);
+
+  useEffect(() => {
+
+    getGifs(apiKEY, 'daft punk').then(gifs => setGifs(gifs));
+  }, [])
+
+
+
 
 
   return (
     <div className="App">
-      <input
-        type="text"
-        onChange={(e) => {
-          setSearch(e.target.value);
-        }}
-      />
-      <button
-      onClick={async () => {
-        const res = await apiCall(API_KEY, search)
-        const gifArray = res.data;
-        setGifs([gifArray]);
-        console.log(gifs)
-      }}
-      >SEARCH</button>
-      <h3>{search} gifs.</h3>
-      <ul>
       {
-        <li>
-        gifs && gifs.map(gif => {
-          
-           return <img src={gif.images.original.url}/>
-          
-        })
-        </li>
+        gifs.map(gif => (
+          <section key="gif.url">
+            <img
+              src={gif.url}
+              alt={''}
+            ></img>
+            <p>{gif.title}</p>
+          </section>
+        )
+        )
       }
-      </ul>
     </div>
   );
 }
