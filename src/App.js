@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from 'react'
 import getGifs from './services/getGifs';
+import { Gif } from './components/Gif';
 
 
 
@@ -13,7 +14,7 @@ function App() {
 
   useEffect(() => {
 
-    getGifs(apiKEY, 'daft punk').then(gifs => setGifs(gifs));
+    getGifs(apiKEY, 'pikachu').then(gifs => setGifs(gifs));
   }, [])
 
 
@@ -24,13 +25,11 @@ function App() {
     <div className="App">
       {
         gifs.map(gif => (
-          <section key="gif.url">
-            <img
-              src={gif.url}
-              alt={''}
-            ></img>
-            <p>{gif.title}</p>
-          </section>
+          <Gif 
+            title={gif.title}
+            url={gif.url}
+            key={gif.id}
+          />
         )
         )
       }
