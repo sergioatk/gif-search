@@ -10,7 +10,8 @@ export default async function getGifs(key, term) {
     const gifs = data.map(gif => (
         {
             title: gif.title,
-            url: gif.images.downsized_medium.url
+            url: gif.images.downsized_medium.url,
+            id: gif.id
         }
 
     ));
